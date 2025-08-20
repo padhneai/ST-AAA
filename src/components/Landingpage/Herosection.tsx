@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Herosection() {
   return (
@@ -17,9 +18,11 @@ export default function Herosection() {
           Serving entrepreneurs and businesses with expertise and dedication.
         </p>
         <div className="flex flex-col md:flex-row gap-4 justify-center mt-10">
+          <Link href="#services">
           <Button size="lg" className="bg-orange-600 hover:bg-orange-700 text-lg">
             Explore Our Services
           </Button>
+          </Link>
           <Button size="lg" variant="outline" className="text-white text-lg border-white hover:bg-white/10">
             Schedule Consultation
           </Button>

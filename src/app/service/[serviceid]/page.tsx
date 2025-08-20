@@ -8,7 +8,7 @@ interface ServicePageProps {
 }
 
 export default async function Page({ params }: ServicePageProps) {
-  const { serviceid } = params;
+  const { serviceid } = await params;
 
   const service = services.find((s) => s.link.split("/").pop() === serviceid);
   if (!service) return notFound();

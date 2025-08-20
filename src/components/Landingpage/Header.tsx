@@ -11,7 +11,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("home");
   const path = usePathname()
-
+console.log(path)
   useEffect(() => {
     const handleScroll = () => {
       const sections = ["home", "services", "about", "contact"];
