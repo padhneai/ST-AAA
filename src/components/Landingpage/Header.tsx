@@ -4,11 +4,13 @@ import { Menu, X, Phone, Mail } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("home");
+  const path = usePathname()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,9 +69,14 @@ export default function Header() {
                 {/* Desktop Nav */}
         <nav className="hidden md:flex gap-6">
           <Link href="#home" className={cn("hover:text-orange-600", activeSection === "home" && "text-orange-600 font-bold")}>Home</Link>
-          <Link href="#services" className={cn("hover:text-orange-600", activeSection === "services" && "text-orange-600 font-bold")}>Services</Link>
+          {path === "/" && 
+          <>
+           <Link href="#services" className={cn("hover:text-orange-600", activeSection === "services" && "text-orange-600 font-bold")}>Services</Link>
           <Link href="#about" className={cn("hover:text-orange-600", activeSection === "about" && "text-orange-600 font-bold")}>About</Link>
           <Link href="#contact" className={cn("hover:text-orange-600", activeSection === "contact" && "text-orange-600 font-bold")}>Contact</Link>
+          </>
+          }
+         
         </nav>
 
         {/* Mobile Menu */}
@@ -100,9 +107,15 @@ export default function Header() {
           </button>
           <nav className="flex flex-col p-6 space-y-6 text-lg mt-10">
             <Link href="#home" onClick={() => setOpen(false)} className={cn(activeSection === "home" && "text-orange-600 font-bold")}>Home</Link>
+
+            {path === "/" && 
+            <>
             <Link href="#services" onClick={() => setOpen(false)} className={cn(activeSection === "services" && "text-orange-600 font-bold")}>Services</Link>
             <Link href="#about" onClick={() => setOpen(false)} className={cn(activeSection === "about" && "text-orange-600 font-bold")}>About</Link>
             <Link href="#contact" onClick={() => setOpen(false)} className={cn(activeSection === "contact" && "text-orange-600 font-bold")}>Contact</Link>
+            </>
+            }
+            
           </nav>
         </div>
     </header>
