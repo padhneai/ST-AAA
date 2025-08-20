@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { toast } from 'sonner';
+import { services } from '@/lib/data';
 
 export default function ContactUs() {
    const [isSubmitting, setIsSubmitting] = useState(false);
@@ -181,10 +182,11 @@ const handleServiceChange = (value: string) => {
                       <SelectValue placeholder="Select a Service" />
                     </SelectTrigger>
                     <SelectContent className='bg-white'>
-                      <SelectItem value="business-formation">Business Formation</SelectItem>
-                      <SelectItem value="financial-services">Financial Services</SelectItem>
-                      <SelectItem value="business-expansion">Business Expansion</SelectItem>
-                      <SelectItem value="consultation">Consultation</SelectItem>
+                    {services.map((data)=>(
+                      <SelectItem key={data.id} value={data.title}>{data.title}</SelectItem>
+
+                    ))}
+                      
                     </SelectContent>
                   </Select>
                 </div>

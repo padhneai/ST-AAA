@@ -34,6 +34,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 bg-white shadow ">
       <div className="max-w-7xl  mx-auto flex items-center justify-between py-4 px-4">
         {/* Logo */}
+      <Link href={"/"}>
         <div className="flex items-center gap-3">
           <div className="bg-blue-600 text-xl text-white font-bold w-12 h-12 rounded-full flex items-center justify-center">
             ST
@@ -47,6 +48,7 @@ export default function Header() {
             </span>
           </div>
         </div>
+      </Link>
 
 
 
