@@ -1,123 +1,182 @@
 "use client";
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { Menu, X, Phone, Mail } from "lucide-react";
 import Link from "next/link";
-import { useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
-
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>("home");
-  const path = usePathname()
-console.log(path)
+  const [activeSection, setActiveSection] = useState("home");
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+
+  const isHomepage = pathname === "/";
+
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = ["home", "services", "about", "contact"];
-      let current = "home";
-      for (const section of sections) {
-        const el = document.getElementById(section);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 80 && rect.bottom > 80) {
-            current = section;
-          }
-        }
-      }
-      setActiveSection(current);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
-    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleNavClick = () => setOpen(false);
+
   return (
-    <header className="sticky top-0 z-50 bg-white shadow ">
-      <div className="max-w-7xl  mx-auto flex items-center justify-between py-4 px-4">
-        {/* Logo */}
-      <Link href={"/"}>
-        <div className="flex items-center gap-3">
-          <div className="bg-blue-600 text-xl text-white font-bold w-12 h-12 rounded-full flex items-center justify-center">
-            ST
-          </div>
-          <div>
-            <h1 className="text-3xl font-bold">
-              ST-AAA <span className="text-orange-600">LLC</span>
-            </h1>
-            <span className="text-lg text-orange-600">
-              Business & Financial Services
-            </span>
-          </div>
-        </div>
-      </Link>
-
-
-
-        {/* Contact Info */}
-        <div className="hidden md:flex flex-col text-sm">
-          <a href="tel:2147331561" className="flex items-center gap-1 hover:text-orange-600">
-            <Phone size={14}/> (214) 733-1561
-          </a>
-          <a href="mailto:staaa2023@gmail.com" className="flex items-center gap-1 hover:text-orange-600">
-            <Mail size={14}/> staaa2023@gmail.com
-          </a>
-        </div>
-
-
-
-                {/* Desktop Nav */}
-        <nav className="hidden md:flex gap-6">
-          <Link href="#home" className={cn("hover:text-orange-600", activeSection === "home" && "text-orange-600 font-bold")}>Home</Link>
-          {path === "/" && 
-          <>
-           <Link href="#services" className={cn("hover:text-orange-600", activeSection === "services" && "text-orange-600 font-bold")}>Services</Link>
-          <Link href="#about" className={cn("hover:text-orange-600", activeSection === "about" && "text-orange-600 font-bold")}>About</Link>
-          <Link href="#contact" className={cn("hover:text-orange-600", activeSection === "contact" && "text-orange-600 font-bold")}>Contact</Link>
-          </>
-          }
-         
-        </nav>
-
-        {/* Mobile Menu */}
-        <button className="md:hidden" onClick={() => setOpen(!open)}>
-          {open ? <X size={24}/> : <Menu size={24}/>}
-        </button>
-      </div>
-
-        {/* Overlay and Mobile Nav - Slide from right */}
-        {/* Overlay */}
+    <>
+      {/* Overlay */}
+      <AnimatePresence>
         {open && (
-          <div
-            className="fixed inset-0  bg-opacity-40 z-40 md:hidden"
-            onClick={() => setOpen(false)}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 md:hidden"
+            onClick={handleNavClick}
           />
         )}
-        {/* Mobile Nav */}
-        <div
-          className={`md:hidden fixed top-0 right-0 h-full w-64 bg-white shadow-lg border-l z-50 transition-transform duration-300 ${open ? 'translate-x-0' : 'translate-x-full'}`}
-          style={{ willChange: 'transform' }}
-        >
-          <button
-            className="absolute top-4 right-4 text-gray-600 hover:text-orange-600"
-            onClick={() => setOpen(false)}
-            aria-label="Close menu"
-          >
-            <X size={28} />
-          </button>
-          <nav className="flex flex-col p-6 space-y-6 text-lg mt-10">
-            <Link href="#home" onClick={() => setOpen(false)} className={cn(activeSection === "home" && "text-orange-600 font-bold")}>Home</Link>
+      </AnimatePresence>
 
-            {path === "/" && 
-            <>
-            <Link href="#services" onClick={() => setOpen(false)} className={cn(activeSection === "services" && "text-orange-600 font-bold")}>Services</Link>
-            <Link href="#about" onClick={() => setOpen(false)} className={cn(activeSection === "about" && "text-orange-600 font-bold")}>About</Link>
-            <Link href="#contact" onClick={() => setOpen(false)} className={cn(activeSection === "contact" && "text-orange-600 font-bold")}>Contact</Link>
-            </>
-            }
-            
-          </nav>
+      {/* Header */}
+      <header
+        className={cn(
+          "sticky top-0 z-50 transition-all duration-500 border-b",
+          scrolled
+            ? "bg-white/80 backdrop-blur-lg border-blue-100 shadow-md"
+            : "bg-transparent border-transparent",
+          open && "bg-white"
+        )}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-full md:h-22 ">
+            {/* Logo */}
+            <Link
+              href="/"
+              onClick={handleNavClick}
+              className="flex items-center"
+            >
+              <Image
+                src="/slogo.png"
+                alt="ST-AAA LLC Logo"
+                width={150}
+                height={50}
+                priority
+                className="object-contain "
+              />
+            </Link>
+
+            {/* Desktop Nav */}
+            {isHomepage && (
+              <nav className="hidden md:flex items-center justify-center flex-1 space-x-10">
+                {["home", "services", "about", "contact"].map((section) => (
+                  <Link
+                    key={section}
+                    href={`#${section}`}
+                    className={cn(
+                      "relative text-sm font-medium text-gray-600 hover:text-orange-600 transition-all capitalize",
+                      activeSection === section &&
+                        "text-orange-600 font-semibold"
+                    )}
+                  >
+                    {section}
+                    {activeSection === section && (
+                      <motion.span
+                        layoutId="activeIndicator"
+                        className="absolute -bottom-1 left-0 right-0 mx-auto w-6 h-0.5 bg-orange-600 rounded-full"
+                      />
+                    )}
+                  </Link>
+                ))}
+              </nav>
+            )}
+
+            {/* Contact (Desktop) */}
+            <div className="hidden md:flex flex-col text-right text-sm leading-tight">
+              <a
+                href="tel:2147331561"
+                className="flex items-center justify-end gap-1 hover:text-orange-600"
+              >
+                <Phone size={14} /> (214) 733-1561
+              </a>
+              <a
+                href="mailto:staaa2023@gmail.com"
+                className="flex items-center justify-end gap-1 hover:text-orange-600"
+              >
+                <Mail size={14} /> staaa2023@gmail.com
+              </a>
+            </div>
+
+            {/* Mobile Button */}
+            <button
+              onClick={() => setOpen(true)}
+              className="md:hidden p-2 rounded-full bg-blue-600 text-white hover:bg-blue-700 focus:outline-none"
+            >
+              <Menu size={22} />
+            </button>
+          </div>
         </div>
-    </header>
+
+        {/* Mobile Drawer */}
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 80, damping: 20 }}
+              className="fixed inset-y-0 right-0 w-80 bg-white shadow-2xl z-50 
+              pt-20 px-6"
+            >
+              <button
+                onClick={handleNavClick}
+                className="absolute top-4 right-4 p-2 bg-gray-100 rounded-full"
+              >
+                <X size={22} />
+              </button>
+
+              {/* Animated Nav Links */}
+              <div className="mt-10 space-y-6">
+                {["home", "services", "about", "contact"].map((section, i) => (
+                  <motion.div
+                    key={section}
+                    initial={{ opacity: 0, x: 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                  >
+                    <Link
+                      href={`#${section}`}
+                      onClick={handleNavClick}
+                      className="block text-xl font-medium capitalize text-gray-700 hover:text-orange-600"
+                    >
+                      {section}
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Mobile Contact CTA */}
+              <div className="mt-12 space-y-4">
+                <a
+                  href="tel:2147331561"
+                  className="flex items-center gap-3 p-3 bg-orange-50 rounded-xl hover:bg-orange-100"
+                >
+                  <Phone className="text-orange-600" /> (214) 733-1561
+                </a>
+                <a
+                  href="mailto:staaa2023@gmail.com"
+                  className="flex items-center gap-3 p-3 bg-blue-50 rounded-xl hover:bg-blue-100"
+                >
+                  <Mail className="text-blue-600" /> staaa2023@gmail.com
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+
+
+    </>
   );
 }

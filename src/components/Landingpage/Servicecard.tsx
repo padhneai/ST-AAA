@@ -1,45 +1,29 @@
-// src/components/ServiceCard.tsx
-import { ReactNode } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import { ServiceCardProps } from "@/types";
+import { ReactNode } from "react";
 
+interface ServiceCardProps {
+  icon: ReactNode;
+  title: string;
+  description: string;
+  link:string;
+}
 
-export default function ServiceCard({
-  icon,
-  title,
-  description,
-  cta,
-  link,
-  isNew,
-}: ServiceCardProps) {
+export default function ServiceCard({ icon, title, description,link }: ServiceCardProps) {
   return (
-    <div className="bg-white rounded-xl overflow-hidden shadow-md border border-gray-200 transition-all duration-300 hover:shadow-lg relative ">
-      {/* New Badge */}
-      {isNew && (
-        <div className="absolute top-4 right-4 bg-orange-500 text-white px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
-          New
+ <Link href={link}>
+    <Card className="group relative overflow-hidden rounded-2xl shadow-lg border border-gray-200 hover:shadow-2xl transition-all duration-300">
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-orange-500/5 opacity-0 group-hover:opacity-100 transition duration-500"></div>
+      <CardHeader className="flex flex-col items-center text-center space-y-3 relative z-10">
+        <div className="p-4 rounded-full bg-orange-100 text-orange-600 group-hover:scale-110 transition-transform duration-300">
+          {icon}
         </div>
-      )}
-      <div className="absolute top-0 w-full h-2 rounded-2xl bg-orange-500 z-10"></div>
-
-         {/* Header - Blue Gradient */}
-      <div className="bg-blue-700 p-6 flex items-center justify-center relative h-28">
-        <div className="absolute inset-0 bg-gradient-to-tr from-blue-800 to-blue-600 opacity-20"></div>
-        <div className="relative z-10 text-white">{icon}</div>
-      </div>
-
-      {/* Content */}
-      <div className="px-6 py-10">
-        <h3 className="text-3xl font-bold text-blue-900 mb-4">{title}</h3>
-        <p className="text-gray-600 leading-relaxed mb-6">{description}</p>
-        <Link href={link}>
-          <button
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-6 rounded-md transition-colors"
-          >
-            {cta}
-          </button>
-        </Link>
-      </div>
-    </div>
+        <CardTitle className="text-xl font-bold">{title}</CardTitle>
+      </CardHeader>
+      <CardContent className="text-center text-gray-600 relative z-10">
+        <p>{description}</p>
+      </CardContent>
+    </Card>
+ </Link>
   );
 }

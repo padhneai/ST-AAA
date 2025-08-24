@@ -70,38 +70,7 @@ export const services: Service[] = [
       "Fast and reliable process",
     ],
   },
-  {
-    id: "entity",
-    title: "Entity Formation",
-    description: "Expert guidance in choosing and forming the optimal business structure.",
-    details:
-      "Choosing the right business entity impacts your taxes, liability, and long-term success. We provide expert guidance on whether to form an LLC, corporation, partnership, or nonprofit. Our team ensures proper filing of formation documents and advises on compliance requirements.",
-    link: "/service/entity",
-    icon: <Briefcase className="w-10 h-10" />,
-    cta: "START NOW",
-    benefits: [
-      "LLC, corporation, or partnership formation",
-      "Operating agreement drafting",
-      "Compliance guidance",
-      "Expert legal advice",
-    ],
-  },
-  {
-    id: "tax-permits",
-    title: "Tax Permits & Certificates",
-    description: "Sales & Use Tax Permits, Resale Certificates, and other essential tax documentation.",
-    details:
-      "Our tax permit services ensure your business operates legally and avoids penalties. We help with obtaining Sales & Use Tax Permits, Resale Certificates, and industry-specific tax documentation. From initial applications to renewals, our experts streamline the process.",
-    link: "/service/tax-permits",
-    icon: <ClipboardList className="w-10 h-10" />,
-    cta: "APPLY TODAY",
-    benefits: [
-      "Sales & use tax permits",
-      "Resale certificates",
-      "Compliance with regulations",
-      "Hassle-free application process",
-    ],
-  },
+
   {
     id: "ein",
     title: "Federal EIN Acquisition",

@@ -1,31 +1,38 @@
+"use client";
 
 import { services } from "@/lib/data";
 import ServiceCard from "./Servicecard";
 
 
-export default function Home() {
+export default function ServiceSection() {
   return (
-    <div id="services" className="min-h-screen bg-gray-200 py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-blue-900 mb-4">
-            Our Professional Services
-          </h1>
-          <div className="w-20 h-1 bg-orange-500 mx-auto mb-6"></div>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Comprehensive solutions for all your business needs - from formation to compliance and financial management
+    <section id="services" className="py-20 bg-gray-50">
+      <div className="container mx-auto max-w-6xl px-6">
+        {/* Section Heading */}
+        <div className="text-center mb-14">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
+            Our Services
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            From bookkeeping to digital marketing — explore everything we offer to grow your business.
           </p>
         </div>
 
-
-        {/* Cards Grid */}
-       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-  {services.map((service) => (
-    <ServiceCard key={service.id} {...service} />
-  ))}
-</div>
+        {/* Services Grid */}
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map((service: any) => (
+            <ServiceCard
+              key={service.id}
+              icon={service.icon}
+              title={service.title}
+              description={service.description}
+              link={service.link}
+              cta={service.cta}
+              benefits={service.benefits}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
